@@ -1,0 +1,78 @@
+body { 
+    background: rgba(0, 0, 0, 0.7) url('https://cdn.pixabay.com/photo/2016/03/26/22/34/car-1281640_960_720.jpg');
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: darken;
+    color: white;
+    font-family:'Arial Narrow Bold', sans-serif;
+   }
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    background: rgba(28, 39, 63, 0.801);
+}
+
+
+
+.card :hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.navbar{
+    background: rgba(28, 39, 63, 0.801);
+    font-size:large;
+    color: white;
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .show>.nav-link {
+    color: grey;
+}
+
+.nav-link {
+  
+    color: white;
+    font-style: italic;
+    font-family:'Arial Narrow Bold', sans-serif;
+    font-size:x-large;
+}
+
+.navbar-brand {
+    
+    color: white;
+    font-style: italic;
+    font-family:fantasy;
+    font-size:x-large;
+}
+
+.fab {
+    border-radius: 100%;
+    bottom: 25px;
+    padding: 25px;
+    position: fixed;
+    right: 25px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background:rgba(28, 39, 63, 0.801);
+    width: 100%;
+    padding: 1rem 1.5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.tableta {
+    background: white;
+}
+
