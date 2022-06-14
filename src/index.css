@@ -1,19 +1,52 @@
 body { 
-    background: rgba(0, 0, 0, 0.7) url('https://cdn.pixabay.com/photo/2016/03/26/22/34/car-1281640_960_720.jpg');
+    background: rgba(0, 0, 0, 0.7) url('https://cdn.pixabay.com/photo/2015/06/25/04/17/indoor-820896_960_720.jpg');
     height: 100%;
-    background-position: center;
+    
     background-repeat: no-repeat;
-    background-size: cover;
     background-blend-mode: darken;
+    background-size:cover;
     color: white;
     font-family:'Arial Narrow Bold', sans-serif;
+    
    }
+   
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     background: rgba(28, 39, 63, 0.801);
+    
+    
 }
+
+.card3 {
+    color: white;
+    width: 800px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(28, 39, 63, 0.801);
+    border-radius: 8px;
+}
+
+.table{
+    align-items: center;
+    background: rgba(28, 39, 63, 0.801);
+    color:white;
+    
+    
+}
+
+.card-body{
+    align-items: center
+}
+.row{
+    align-items: center
+}
+
+
+
+
 
 
 
@@ -48,8 +81,8 @@ body {
 }
 
 .fab {
-    border-radius: 100%;
-    bottom: 25px;
+    border-radius: 10%;
+    bottom: 30px;
     padding: 25px;
     position: fixed;
     right: 25px;
@@ -59,7 +92,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    background:rgba(28, 39, 63, 0.801);
+    background:rgba(25, 35, 58, 0.993);
     width: 100%;
     padding: 1rem 1.5rem;
     height: 100%;
@@ -72,7 +105,8 @@ body {
     align-items: center;
 }
 
-.tableta {
-    background: white;
+.btn {
+    background-color: rgb(224, 223, 216);
+    
 }
 

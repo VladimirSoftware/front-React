@@ -24,6 +24,15 @@ const editarTipoEquipo = (tipoEquipoId, data) => {
     return resp;
 }
 
+const getTipoPorId = (tipoId) => {
+    return axiosInstance.get(`tipo-equipo/${tipoId}`, {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    });
+
+}
+
 export {
-    getTipoEquipo, crearTipoEquipo, editarTipoEquipo
+    getTipoEquipo, crearTipoEquipo, editarTipoEquipo, getTipoPorId
 }

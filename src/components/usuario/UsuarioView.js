@@ -1,73 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { getUsuarios, crearUsuarios} from '../../services/usuarioService';
-import { UsuarioTable } from './UsuarioTable';
-
+import { getUsuarios } from '../../services/usuarioService';
+import { UsarioCard } from './UsarioCard';
+import { UsuarioNew } from './UsuarioNew';
+import Swal from 'sweetalert2';
 export const UsuarioView = () => {
 
   const [ usuarios, setUsuarios ] = useState([]);
-  const [ valoresForm, setValoresForm ] = useState({});
-  const { nombre = '', email = '',  estado = '' } = valoresForm;
-
+  const [ openModal, setOpenModal ] = useState(false);
   const listarUsuarios = async () => {
     try {
-      const resp = await getUsuarios();
-      console.log(resp.data);
-      setUsuarios(resp.data);
+      Swal.fire({
+        allowOutsideClick: false,
+        text: 'Cargando...'
+    });
+    Swal.showLoading();
+      const { data } = await getUsuarios();
+      console.log(data);
+      setUsuarios(data);
+      Swal.close();
     } catch (error) {
       console.log(error);
+      Swal.close();
     }
   }
 
-  const handleOnChange = (e) => {
-    setValoresForm({ ...valoresForm, [e.target.name]: e.target.value });
+  useEffect(() => {
+    listarUsuarios();
+  }, []);
+  const handleOpenModal = () => {
+    setOpenModal(!openModal)
   }
-
-  const nuevoUsuario = async (usuario) => {
-    try {
-      const resp = await crearUsuarios(usuario);
-      console.log(resp.data);
-      listarUsuarios();
-      setValoresForm({ nombre: '', email: '',estado: '' });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const handleCrearMarca = (e) => {
-    e.preventDefault();
-    nuevoUsuario(valoresForm);
-  }
-
-  useEffect(() => { listarUsuarios(); }, []);
 
   return (
-    <div className='tableta'>
-      <div className='container'>
-        <form onSubmit={(e) => handleCrearMarca(e)}>
-          <legend>Crear / Editar Usuario</legend>
-          <div className="mb-3">
-            <label className="form-label">Nombre</label>
-            <input required minLength={6} name='nombre' value={nombre} type="text" className="form-control"
-              placeholder="Escriba un nombre" onChange={(e) => handleOnChange(e)} />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Correo</label>
-            <input required minLength={6} name='email' value={email} type="text" className="form-control"
-              placeholder="Escriba un correo" onChange={(e) => handleOnChange(e)} />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Estado</label>
-            <select required name='estado' value={estado}
-              className="form-select" onChange={(e) => handleOnChange(e)}>
-              <option defaultValue value="">--SELECCIONAR--</option>
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
-          </div>
-          <button className="btn btn-primary">Guardar</button>
-        </form>
-        <UsuarioTable usuarios={usuarios} />
-      </div>
+    <div className="container"> 
+         <div className="mt-2 row row-cols-1 row-cols-md-3 g-4">
+             {
+              usuarios.map((usuario) => {
+                return <UsarioCard key={usuario._id} usuario={ usuario }/>
+              })
+             }
+        </div>
+        {
+          openModal ? <UsuarioNew 
+                        handleOpenModal={ handleOpenModal }
+                        listarUsuarios={ listarUsuarios }/> :
+              (<button className='btn btn-light fab' onClick={handleOpenModal }> Agregar 
+              &nbsp;<i className="fa-solid fa-circle-plus"></i>
+              </button>)
+        }
     </div>
   )
 }

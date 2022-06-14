@@ -23,7 +23,9 @@ const editarUsuarios = (usuarioId, data) => {
     return resp;
 }
 
-const getUsuariosId = (usuarioId) => {
+
+
+const getUsuarioPorId = (usuarioId) => {
     return axiosInstance.get(`usuario/${usuarioId}`, {
         headers: {
             'Content-type': 'application/json'
@@ -33,5 +35,5 @@ const getUsuariosId = (usuarioId) => {
 }
 
 export {
-    getUsuarios, crearUsuarios, editarUsuarios, getUsuariosId
+    getUsuarios, crearUsuarios, editarUsuarios, getUsuarioPorId
 }

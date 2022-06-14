@@ -44,8 +44,8 @@ export const InventarioView = () => {
           openModal ? <InventarioNew 
                         handleOpenModal={ handleOpenModal }
                         listarInventarios={ listarInventarios }/> :
-              (<button className='btn btn-light fab' onClick={handleOpenModal }>
-              <i className="fa-solid fa-car-side"></i>
+              (<button className='btn btn-light fab' onClick={handleOpenModal }>Agregar
+                &nbsp;<i className="fa-solid fa-circle-plus"></i>
               </button>)
         }
     </div>

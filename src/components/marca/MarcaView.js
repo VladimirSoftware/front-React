@@ -1,68 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { getMarcas, crearMarca, editarMarca } from '../../services/marcaService';
-import { MarcaTable } from './MarcaTable';
-
+import { getMarcas } from '../../services/marcaService';
+import { MarcaCard } from './MarcaCard';
+import { MarcaNew } from './MarcaNew';
+import Swal from 'sweetalert2';
 export const MarcaView = () => {
 
   const [ marcas, setMarcas ] = useState([]);
-  const [ valoresForm, setValoresForm ] = useState({});
-  const { nombre = '', estado = '' } = valoresForm;
-
+  const [ openModal, setOpenModal ] = useState(false);
   const listarMarcas = async () => {
     try {
-      const resp = await getMarcas();
-      console.log(resp.data);
-      setMarcas(resp.data);
+      Swal.fire({
+        allowOutsideClick: false,
+        text: 'Cargando...'
+    });
+    Swal.showLoading();
+      const { data } = await getMarcas();
+      console.log(data);
+      setMarcas(data);
+      Swal.close();
     } catch (error) {
       console.log(error);
+      Swal.close();
     }
   }
 
-  const handleOnChange = (e) => {
-    setValoresForm({ ...valoresForm, [e.target.name]: e.target.value });
+  useEffect(() => {
+    listarMarcas();
+  }, []);
+  const handleOpenModal = () => {
+    setOpenModal(!openModal)
   }
-
-  const nuevaMarca = async (marca) => {
-    try {
-      const resp = await crearMarca(marca);
-      console.log(resp.data);
-      listarMarcas();
-      setValoresForm({ nombre: '', estado: '' });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const handleCrearMarca = (e) => {
-    e.preventDefault();
-    nuevaMarca(valoresForm);
-  }
-
-  useEffect(() => { listarMarcas(); }, []);
 
   return (
-    <div className='tableta'>
-    <div className='container'>
-      <form onSubmit={ (e) => handleCrearMarca(e) }>
-        <legend>Crear / Editar Marca</legend>
-        <div className="mb-3">
-          <label className="form-label">Nombre</label>
-          <input required minLength={6} name='nombre' value={nombre} type="text" className="form-control" 
-                placeholder="Escriba un nombre" onChange={ (e) => handleOnChange(e) } />
+    <div className="container"> 
+         <div className="mt-2 row row-cols-1 row-cols-md-3 g-4">
+             {
+              marcas.map((marca) => {
+                return <MarcaCard key={marca._id} marca={ marca }/>
+              })
+             }
         </div>
-        <div className="mb-3">
-          <label className="form-label">Estado</label>
-          <select required name='estado' value={estado} 
-                className="form-select" onChange={ (e) => handleOnChange(e) }>
-            <option defaultValue value="">--SELECCIONAR--</option>
-            <option value="Activo">Activo</option>
-            <option value="Inactivo">Inactivo</option>
-        </select>
-        </div>
-        <button className="btn btn-primary">Guardar</button>
-      </form>
-      <MarcaTable marcas={ marcas } />
-  </div>
-  </div>
+        {
+          openModal ? <MarcaNew 
+                        handleOpenModal={ handleOpenModal }
+                        listarMarcas={ listarMarcas }/> :
+              (<button className='btn btn-light fab' onClick={handleOpenModal }> Agregar 
+              &nbsp;<i className="fa-solid fa-circle-plus"></i>
+              </button>)
+        }
+    </div>
   )
 }

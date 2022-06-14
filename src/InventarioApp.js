@@ -7,6 +7,10 @@ import { MarcaView } from './components/marca/MarcaView';
 import { EstadoView } from './components/estado/EstadoView';
 import { TipoView } from './components/tipo/TipoView';
 import { InventarioUpdate } from './components/inventario/InventarioUpdate';
+import { MarcaUpdate } from './components/marca/MarcaUpdate';
+import { TipoUpdate } from './components/tipo/TipoUpdate';
+import { EstadoUpdate } from './components/estado/EstadoUpdate';
+import { UsuarioUpdate } from './components/usuario/UsuarioUpdate';
 
 
 const InventarioApp = () => {
@@ -18,6 +22,10 @@ const InventarioApp = () => {
           <Route exact path="/marcas" component={ MarcaView } />
           <Route exact path="/estados" component={ EstadoView } />
           <Route exact path="/tipos" component={ TipoView } />
+          <Route exact path="/marcas/edit/:marcaId" component={ MarcaUpdate } />
+          <Route exact path="/tipos/edit/:tipoId" component={ TipoUpdate } />
+          <Route exact path="/estados/edit/:estadoId" component={ EstadoUpdate } />
+          <Route exact path="/usuarios/edit/:usuarioId" component={ UsuarioUpdate } />
           <Route exact path="/inventarios/edit/:inventarioId" component={ InventarioUpdate } />
           
           <Redirect to="/" />

@@ -1,68 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { getEstadoEquipo, crearEstadoEquipo, editarEstadoEquipo } from '../../services/estadoEquipoService';
-import { EstadoTable } from './EstadoTable';
-
+import { getEstadoEquipo } from '../../services/estadoEquipoService';
+import { EstadoCard } from './EstadoCard';
+import { EstadoNew } from './EstadoNew';
+import Swal from 'sweetalert2';
 export const EstadoView = () => {
 
   const [ estados, setEstados ] = useState([]);
-  const [ valoresForm, setValoresForm ] = useState({});
-  const { nombre = '', estado = '' } = valoresForm;
-
+  const [ openModal, setOpenModal ] = useState(false);
   const listarEstados = async () => {
     try {
-      const resp = await getEstadoEquipo();
-      console.log(resp.data);
-      setEstados(resp.data);
+      Swal.fire({
+        allowOutsideClick: false,
+        text: 'Cargando...'
+    });
+    Swal.showLoading();
+      const { data } = await getEstadoEquipo();
+      console.log(data);
+      setEstados(data);
+      Swal.close();
     } catch (error) {
       console.log(error);
+      Swal.close();
     }
   }
 
-  const handleOnChange = (e) => {
-    setValoresForm({ ...valoresForm, [e.target.name]: e.target.value });
+  useEffect(() => {
+    listarEstados();
+  }, []);
+  const handleOpenModal = () => {
+    setOpenModal(!openModal)
   }
-
-  const nuevoEstado = async (estado) => {
-    try {
-      const resp = await crearEstadoEquipo(estado);
-      console.log(resp.data);
-      listarEstados();
-      setValoresForm({ nombre: '', estado: '' });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const handleCrearEstado = (e) => {
-    e.preventDefault();
-    nuevoEstado(valoresForm);
-  }
-
-  useEffect(() => { listarEstados(); }, []);
 
   return (
-    <div className='tableta'>
-    <div className='container'>
-      <form onSubmit={ (e) => handleCrearEstado(e) }>
-        <legend>Crear / Editar Estado</legend>
-        <div className="mb-3">
-          <label className="form-label">Nombre</label>
-          <input required minLength={6} name='nombre' value={nombre} type="text" className="form-control" 
-                placeholder="Escriba un nombre" onChange={ (e) => handleOnChange(e) } />
+    <div className="container"> 
+         <div className="mt-2 row row-cols-1 row-cols-md-3 g-4">
+             {
+              estados.map((estado) => {
+                return <EstadoCard key={estado._id} estado={ estado }/>
+              })
+             }
         </div>
-        <div className="mb-3">
-          <label className="form-label">Estado</label>
-          <select required name='estado' value={estado} 
-                className="form-select" onChange={ (e) => handleOnChange(e) }>
-            <option defaultValue value="">--SELECCIONAR--</option>
-            <option value="Activo">Activo</option>
-            <option value="Inactivo">Inactivo</option>
-        </select>
-        </div>
-        <button className="btn btn-primary">Guardar</button>
-      </form>
-      <EstadoTable estados={ estados } />
-  </div>
-  </div>
+        {
+          openModal ? <EstadoNew 
+                        handleOpenModal={ handleOpenModal }
+                        listarEstados={ listarEstados }/> :
+              (<button className='btn btn-light fab' onClick={handleOpenModal }> Agregar 
+              &nbsp;<i className="fa-solid fa-circle-plus"></i>
+              </button>)
+        }
+    </div>
   )
 }
+
